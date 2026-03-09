@@ -29,4 +29,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO_NAME: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          GEMINI_PROMPT: ${{ secrets.GEMINI_PROMPT }}
         run: python .github/scripts/avaliador.py

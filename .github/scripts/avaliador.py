@@ -13,6 +13,8 @@ def get_env_var(name):
 GITHUB_TOKEN = get_env_var('GITHUB_TOKEN')
 GEMINI_API_KEY = get_env_var('GEMINI_API_KEY')
 REPO_NAME = get_env_var('REPO_NAME')
+SYSTEM_PROMPT = get_env_var('GEMINI_PROMPT')
+
 try:
     PR_NUMBER = int(get_env_var('PR_NUMBER'))
 except ValueError:
@@ -21,7 +23,7 @@ except ValueError:
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 
-def get_pr_diff():
+def get_pr_details():
     auth = Auth.Token(GITHUB_TOKEN)
     g = Github(auth=auth)
     
@@ -40,33 +42,32 @@ def get_pr_diff():
             patch_content = file.patch if file.patch else "Conteúdo binário ou muito grande omitido."
             files_changed.append(f"Arquivo: {file.filename}\nAlterações:\n{patch_content}")
     
-    return "\n---\n".join(files_changed), pr
+    diff_text = "\n---\n".join(files_changed)
+    
+    pr_title = pr.title
+    pr_body = pr.body if pr.body else "Nenhuma descrição fornecida no PR."
+    
+    return diff_text, pr_title, pr_body, pr
 
-def evaluate_code(diff_text):
+def evaluate_code(diff_text, pr_title, pr_body):
     if not diff_text:
         return "Não foi possível encontrar alterações de código legíveis neste PR."
 
-    prompt = f"""
-    Você é um professor sênior de Engenharia de Software (Mobile/Flutter).
-    Seu objetivo é avaliar o código de um aluno.
-    
-    Critérios de avaliação:
-    1. Clean Code e Boas Práticas (nomes de variáveis, funções pequenas).
-    2. Arquitetura e Organização (separação de responsabilidades).
-    3. Potenciais bugs ou problemas de performance.
-    
-    Aqui está o DIFF do Pull Request:
-    {diff_text}
-    
-    Gere um feedback conciso em Markdown. Aponte erros específicos e sugira correções.
-    Se o código estiver bom, elogie.
-    Dê uma nota final de 0 a 10.
-    """
+    final_prompt = f"""
+{SYSTEM_PROMPT}
+
+### DADOS DO PULL REQUEST
+**Título:** {pr_title}
+**Descrição:** {pr_body}
+
+### DIFF DO CÓDIGO (Alterações do PR)
+{diff_text}
+"""
     
     try:
         response = client.models.generate_content(
             model='gemini-2.5-flash',
-            contents=prompt
+            contents=final_prompt
         )
         return response.text
     except Exception as e:
@@ -80,11 +81,12 @@ def post_comment(pr, body):
         print(f"Erro ao postar comentário: {e}")
 
 if __name__ == "__main__":
-    diff_text, pr = get_pr_diff()
+    diff_text, pr_title, pr_body, pr = get_pr_details()
     
     if not diff_text:
         print("Nenhum arquivo relevante alterado ou diff vazio.")
-        # Opcional: postar um aviso no PR
     else:
-        review = evaluate_code(diff_text)
-        post_comment(pr, f"## 🤖 Avaliação Automática do Gemini\n\n{review}")
+        review = evaluate_code(diff_text, pr_title, pr_body)
+        
+        comment_header = f"## 🤖 Avaliação Automática do Gemini\n**Avaliando:** {pr_title}\n\n"
+        post_comment(pr, comment_header + review)
