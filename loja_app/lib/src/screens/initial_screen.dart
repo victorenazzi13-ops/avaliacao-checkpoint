@@ -43,7 +43,7 @@ class InitialScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 10),
-            
+
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
