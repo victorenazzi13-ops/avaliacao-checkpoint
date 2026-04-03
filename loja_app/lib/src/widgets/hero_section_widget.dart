@@ -1,25 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.deepPurple,
-      padding: const EdgeInsets.all(20),
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/herogrid.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Image.asset('assets/Banner.png'),
+          ),
 
-          const Text(
-            "Hora de abraçar seu lado geek",
+          Text.rich(
+            const TextSpan(
+              text: 'Hora de abraçar seu ',
+              style: TextStyle(color: Color(0xFFFF55DF)),
+              children: [
+                TextSpan(
+                  text: 'lado geek',
+                  style: TextStyle(color: Color(0xFF8FFF24)),
+                ),
+              ],
+            ),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 24,
+              fontFamily: GoogleFonts.orbitron().fontFamily,
+              fontSize: 30,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
             ),
           ),
 
@@ -27,10 +43,22 @@ class HeroSection extends StatelessWidget {
 
           ElevatedButton(
             onPressed: () {},
-            child: const Text("Ver as novidades!"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF7800F7),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            ),
+            child: Text(
+              'Ver as novidades!',
+              style: TextStyle(
+                fontFamily: GoogleFonts.poppins().fontFamily,
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
 
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
         ],
       ),
     );
