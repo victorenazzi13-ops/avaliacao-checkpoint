@@ -26,50 +26,55 @@ class _InitialScreenState extends State<InitialScreen> {
           SizedBox(width: 25),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  hintText: 'O que você procura?',
-                  suffixIcon: const Icon(Icons.search),
-                  filled: true,
-                  fillColor: Colors.grey[200],
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(32),
-                    borderSide: BorderSide.none,
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 430),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      hintText: 'O que você procura?',
+                      suffixIcon: const Icon(Icons.search),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(32),
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const HeroSection(),
-            Text(
-              'Promos Especiais',
-              style: TextStyle(
-                fontFamily: GoogleFonts.orbitron().fontFamily,
-                fontSize: 27,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: produtos.length,
-              itemBuilder: (context, index) {
-                final produto = produtos[index];
+                const HeroSection(),
+                Text(
+                  'Promos Especiais',
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.orbitron().fontFamily,
+                    fontSize: 27,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: produtos.length,
+                  itemBuilder: (context, index) {
+                    final produto = produtos[index];
 
-                return ProductCardWidget(
-                  name: produto.name,
-                  price: produto.price,
-                  image: produto.image,
-                );
-              },
+                    return ProductCardWidget(
+                      name: produto.name,
+                      price: produto.price,
+                      image: produto.image,
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

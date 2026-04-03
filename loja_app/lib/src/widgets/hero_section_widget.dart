@@ -15,16 +15,18 @@ class HeroSection extends StatelessWidget {
       ),
       child: Column(
         children: [
+          const SizedBox(height: 20),
+
           Padding(
             padding: const EdgeInsets.all(20),
             child: Image.asset('assets/Banner.png'),
           ),
 
           Text.rich(
-            const TextSpan(
+            TextSpan(
               text: 'Hora de abraçar seu ',
-              style: TextStyle(color: Color(0xFFFF55DF)),
-              children: [
+              style: const TextStyle(color: Color(0xFFFF55DF)),
+              children: const [
                 TextSpan(
                   text: 'lado geek',
                   style: TextStyle(color: Color(0xFF8FFF24)),
@@ -34,7 +36,7 @@ class HeroSection extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: GoogleFonts.orbitron().fontFamily,
-              fontSize: 30,
+              fontSize: 50,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -45,20 +47,20 @@ class HeroSection extends StatelessWidget {
             onPressed: () {},
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF7800F7),
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
             ),
             child: Text(
               'Ver as novidades!',
               style: TextStyle(
                 fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: 20,
+                fontSize: 25,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
 
-          const SizedBox(height: 40),
+          const SizedBox(height: 50),
         ],
       ),
     );
