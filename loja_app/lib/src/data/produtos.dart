@@ -2,18 +2,43 @@ import '../models/produto.dart';
 
 final List<Produto> produtos = [
   Produto(
-    name: "Camisa Geek",
-    price: "R\$ 50,00",
-    image: "https://picsum.photos/200",
+    name: 'Camiseta Capy',
+    price: '28,00',
+    image: 'assets/camisacap.png',
   ),
   Produto(
-    name: "Caneca Nerd",
-    price: "R\$ 30,00",
-    image: "https://picsum.photos/201",
+    name: 'Mousepad Café',
+    price: '18,00',
+    image: 'assets/mousepad.png',
   ),
   Produto(
-    name: "Mouse Gamer",
-    price: "R\$ 120,00",
-    image: "https://picsum.photos/202",
+    name: 'Caneca Bug',
+    price: '28,00',
+    image: 'assets/caneca.png',
+  ),
+  Produto(
+    name: 'Boné 404',
+    price: '25,00',
+    image: 'assets/bone.png',
+  ),
+  Produto(
+    name: 'Quadro While',
+    price: '22,00',
+    image: 'assets/quadro.png',
+  ),
+  Produto(
+    name: 'Copo Vida de Dev',
+    price: '28,00',
+    image: 'assets/copo.png',
+  ),
+  Produto(
+    name: 'Abridor de Garrafa',
+    price: '12,00',
+    image: 'assets/abridor.png',
+  ),
+  Produto(
+    name: 'Camiseta Estágios',
+    price: '35,00',
+    image: 'assets/camisaest.png',
   ),
 ];
