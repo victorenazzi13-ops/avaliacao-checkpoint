@@ -9,10 +9,7 @@ class InitialScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Minha Loja"),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text("Minha Loja"), centerTitle: true),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -37,14 +34,16 @@ class InitialScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            const Text(
-              'Promos Especiais',
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            const Padding(
+              padding: EdgeInsets.all(16),
+              child: Text(
+                'Promoções Especiais',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
 
+            const SizedBox(height: 10),
+            
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
