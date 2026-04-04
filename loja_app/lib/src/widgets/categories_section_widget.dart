@@ -31,9 +31,6 @@ class CategoriesSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-
-        // AQUI VOCÊ CONTROLA O TAMANHO! O número final é a altura da imagem.
-        // Se quiser maior, aumente o número. Se quiser menor, diminua.
         _buildCategory('Roupas', 'assets/categoria_roupas.png', imageSize: 320),
         _buildCategory(
           'Decoração',
@@ -54,7 +51,6 @@ class CategoriesSection extends StatelessWidget {
     );
   }
 
-  // Adicionamos o parâmetro 'imageSize' aqui na função
   Widget _buildCategory(
     String title,
     String image, {
@@ -73,24 +69,20 @@ class CategoriesSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // O quadrado azul perfeito continua garantido pelo AspectRatio
           AspectRatio(
             aspectRatio: 1.0,
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(color: Color(0xFF0A0128)),
               child: Center(
-                // A imagem agora obedece ao tamanho que você passou lá em cima!
                 child: Image.asset(
                   image,
-                  height: imageSize, // <--- O SEGREDO ESTÁ AQUI
+                  height: imageSize,
                   fit: BoxFit.contain,
                 ),
               ),
             ),
           ),
-
-          // O quadrado branco com o texto
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(vertical: 16),
