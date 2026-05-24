@@ -28,11 +28,10 @@ class FooterWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Linha verde com largura 
-                Container(
-                  width: 280,
-                  height: 1.5,
-                  color: const Color(0xFF8FFF24),
+                // Linha verde com largura
+                FractionallySizedBox(
+                  widthFactor: 0.75,
+                  child: Container(height: 1.5, color: const Color(0xFF8FFF24)),
                 ),
                 const SizedBox(height: 30),
 
