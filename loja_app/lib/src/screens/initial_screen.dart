@@ -57,45 +57,38 @@ class _InitialScreenState extends State<InitialScreen> {
             const CategoriesSection(),
             const SizedBox(height: 20),
 
-            Text(
-              'Promos Especiais',
-              style: TextStyle(
-                fontFamily: GoogleFonts.orbitron().fontFamily,
-                fontSize: 27,
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-              ),
-            ),
+              Text(
+    'Promos Especiais',
+    style: TextStyle(
+      fontFamily: GoogleFonts.orbitron().fontFamily,
+      fontSize: 27,
+      fontWeight: FontWeight.bold,
+      color: Colors.black87,
+    ),
+  ),
 
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: produtos.length,
-              itemBuilder: (context, index) {
-                final produto = produtos[index];
+  ...produtos.map(
+    (produto) => ProductCardWidget(
+      name: produto.name,
+      price: produto.price,
+      image: produto.image,
+    ),
+  ),
 
-                return ProductCardWidget(
-                  name: produto.name,
-                  price: produto.price,
-                  image: produto.image,
-                );
-              },
-            ),
-
-            Center(
-              child: TextButton(
-                onPressed: () {},
-                child: Text(
-                  'Ver mais',
-                  style: TextStyle(
-                    fontFamily: GoogleFonts.poppins().fontFamily,
-                    color: const Color(0xFF7800F7),
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-            ),
+  Center(
+    child: TextButton(
+      onPressed: () {},
+      child: Text(
+        'Ver mais',
+        style: TextStyle(
+          fontFamily: GoogleFonts.poppins().fontFamily,
+          color: const Color(0xFF7800F7),
+          fontWeight: FontWeight.bold,
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    ),
+  ),
 
             const SizedBox(height: 20),
 

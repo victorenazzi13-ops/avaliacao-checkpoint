@@ -28,7 +28,7 @@ class FooterWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
 
-                // Linha verde com largura definida
+                // Linha verde com largura 
                 Container(
                   width: 280,
                   height: 1.5,
@@ -36,7 +36,7 @@ class FooterWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 30),
 
-                // Bloco de texto com a mesma largura da linha verde
+                // Linha verde
                 SizedBox(
                   width: 280,
                   child: Column(
