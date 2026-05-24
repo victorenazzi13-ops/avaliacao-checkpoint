@@ -30,12 +30,14 @@ class ProductCardWidget extends StatelessWidget {
             width: double.infinity,
             alignment: Alignment.center,
             color: Colors.white,
-            child: Image.asset(
-              image,
+            child: SizedBox(
               width: 180,
               height: 159,
-              alignment: Alignment.center,
-              fit: BoxFit.cover,
+              child: Image.asset(
+                image,
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           const SizedBox(height: 10),
