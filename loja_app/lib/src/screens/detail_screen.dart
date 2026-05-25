@@ -22,7 +22,7 @@ class DetailScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -53,6 +53,16 @@ class DetailScreen extends StatelessWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF7800F7),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              produto.description,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                height: 1.4,
+                color: Colors.black87,
               ),
             ),
             const SizedBox(height: 30),

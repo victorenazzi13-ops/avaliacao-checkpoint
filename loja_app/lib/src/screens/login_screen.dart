@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../services/login_service.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -9,36 +11,67 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
+  final usuarioController = TextEditingController();
   final senhaController = TextEditingController();
+
+  final loginService = LoginService();
+
+  bool carregando = false;
 
   @override
   void dispose() {
-    emailController.dispose();
+    usuarioController.dispose();
     senhaController.dispose();
     super.dispose();
   }
 
-  void fazerLogin() {
-    final email = emailController.text.trim();
+  Future<void> fazerLogin() async {
+    final usuario = usuarioController.text.trim();
     final senha = senhaController.text.trim();
 
-    if (email.isEmpty || senha.isEmpty) {
+    if (usuario.isEmpty || senha.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Preencha email e senha.'),
+          content: Text('Preencha usuário e senha.'),
         ),
       );
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Login realizado com sucesso: $email'),
-      ),
-    );
+    setState(() {
+      carregando = true;
+    });
 
-    Navigator.pop(context);
+    try {
+      final response = await loginService.login(
+        username: usuario,
+        password: senha,
+      );
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Login realizado! Token: ${response.token}'),
+        ),
+      );
+
+      Navigator.pop(context);
+    } catch (erro) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(erro.toString().replaceAll('Exception: ', '')),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          carregando = false;
+        });
+      }
+    }
   }
 
   @override
@@ -65,11 +98,11 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 35),
             TextField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
+              controller: usuarioController,
               decoration: InputDecoration(
-                labelText: 'Email',
-                prefixIcon: const Icon(Icons.email_outlined),
+                labelText: 'Usuário',
+                hintText: 'digite seu usuário',
+                prefixIcon: const Icon(Icons.person_outline),
                 filled: true,
                 fillColor: Colors.grey[200],
                 border: OutlineInputBorder(
@@ -84,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Senha',
+                hintText: 'digite sua senha',
                 prefixIcon: const Icon(Icons.lock_outline),
                 filled: true,
                 fillColor: Colors.grey[200],
@@ -98,12 +132,14 @@ class _LoginScreenState extends State<LoginScreen> {
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: fazerLogin,
+                onPressed: carregando ? null : fazerLogin,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF7800F7),
                   foregroundColor: Colors.white,
                 ),
-                child: const Text('Entrar'),
+                child: carregando
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text('Entrar'),
               ),
             ),
           ],
