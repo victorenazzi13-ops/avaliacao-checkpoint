@@ -6,8 +6,10 @@ import '../widgets/product_card_widget.dart';
 import '../widgets/categories_section_widget.dart';
 import '../widgets/banner_widget.dart';
 import '../widgets/footer_widget.dart';
+
 import 'detail_screen.dart';
 import 'cart_screen.dart';
+import 'login_screen.dart';
 
 import '../data/produtos.dart';
 
@@ -27,7 +29,17 @@ class _InitialScreenState extends State<InitialScreen> {
         title: Image.asset('assets/logo_usedev.png', height: 40),
         centerTitle: true,
         actions: [
-          const Icon(Icons.person_outline, size: 40),
+          IconButton(
+            icon: const Icon(Icons.person_outline, size: 40),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginScreen(),
+                ),
+              );
+            },
+          ),
           const SizedBox(width: 10),
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined, size: 40),
