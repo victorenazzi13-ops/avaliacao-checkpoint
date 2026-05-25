@@ -6,6 +6,8 @@ import '../widgets/product_card_widget.dart';
 import '../widgets/categories_section_widget.dart';
 import '../widgets/banner_widget.dart';
 import '../widgets/footer_widget.dart';
+import 'detail_screen.dart';
+import 'cart_screen.dart';
 
 import '../data/produtos.dart';
 
@@ -24,11 +26,21 @@ class _InitialScreenState extends State<InitialScreen> {
         leading: const Icon(Icons.menu, size: 40),
         title: Image.asset('assets/logo_usedev.png', height: 40),
         centerTitle: true,
-        actions: const [
-          Icon(Icons.person_outline, size: 40),
-          SizedBox(width: 10),
-          Icon(Icons.shopping_cart_outlined, size: 40),
-          SizedBox(width: 25),
+        actions: [
+          const Icon(Icons.person_outline, size: 40),
+          const SizedBox(width: 10),
+          IconButton(
+            icon: const Icon(Icons.shopping_cart_outlined, size: 40),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const CartScreen(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 15),
         ],
       ),
       body: SingleChildScrollView(
@@ -57,38 +69,46 @@ class _InitialScreenState extends State<InitialScreen> {
             const CategoriesSection(),
             const SizedBox(height: 20),
 
-              Text(
-    'Promos Especiais',
-    style: TextStyle(
-      fontFamily: GoogleFonts.orbitron().fontFamily,
-      fontSize: 27,
-      fontWeight: FontWeight.bold,
-      color: Colors.black87,
-    ),
-  ),
+            Text(
+              'Promos Especiais',
+              style: TextStyle(
+                fontFamily: GoogleFonts.orbitron().fontFamily,
+                fontSize: 27,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
 
-  ...produtos.map(
-    (produto) => ProductCardWidget(
-      name: produto.name,
-      price: produto.price,
-      image: produto.image,
-    ),
-  ),
+            ...produtos.map(
+              (produto) => ProductCardWidget(
+                name: produto.name,
+                price: produto.price,
+                image: produto.image,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailScreen(produto: produto),
+                    ),
+                  );
+                },
+              ),
+            ),
 
-  Center(
-    child: TextButton(
-      onPressed: () {},
-      child: Text(
-        'Ver mais',
-        style: TextStyle(
-          fontFamily: GoogleFonts.poppins().fontFamily,
-          color: const Color(0xFF7800F7),
-          fontWeight: FontWeight.bold,
-          decoration: TextDecoration.underline,
-        ),
-      ),
-    ),
-  ),
+            Center(
+              child: TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Ver mais',
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.poppins().fontFamily,
+                    color: const Color(0xFF7800F7),
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ),
 
             const SizedBox(height: 20),
 
