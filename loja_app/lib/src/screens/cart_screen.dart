@@ -11,15 +11,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  double get total {
-    return carrinho.fold(0, (soma, produto) {
-      final preco = double.parse(produto.price.replaceAll(',', '.'));
-      return soma + preco;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final total = calcularTotal();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -44,7 +39,8 @@ class _CartScreenState extends State<CartScreen> {
                   child: ListView.builder(
                     itemCount: carrinho.length,
                     itemBuilder: (context, index) {
-                      final produto = carrinho[index];
+                      final item = carrinho[index];
+                      final produto = item.produto;
 
                       return Card(
                         margin: const EdgeInsets.all(10),
@@ -56,13 +52,35 @@ class _CartScreenState extends State<CartScreen> {
                           ),
                           title: Text(produto.name),
                           subtitle: Text('R\$ ${produto.price}'),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete_outline),
-                            onPressed: () {
-                              setState(() {
-                                carrinho.removeAt(index);
-                              });
-                            },
+                          trailing: SizedBox(
+                            width: 135,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.remove_circle_outline),
+                                  onPressed: () {
+                                    setState(() {
+                                      diminuirQuantidade(index);
+                                    });
+                                  },
+                                ),
+                                Text(
+                                  '${item.quantidade}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.add_circle_outline),
+                                  onPressed: () {
+                                    setState(() {
+                                      aumentarQuantidade(index);
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
@@ -99,7 +117,7 @@ class _CartScreenState extends State<CartScreen> {
                             );
 
                             setState(() {
-                              carrinho.clear();
+                              limparCarrinho();
                             });
                           },
                           style: ElevatedButton.styleFrom(

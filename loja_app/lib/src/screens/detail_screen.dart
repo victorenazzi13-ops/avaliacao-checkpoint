@@ -61,7 +61,7 @@ class DetailScreen extends StatelessWidget {
               height: 50,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  carrinho.add(produto);
+                  adicionarAoCarrinho(produto);
 
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
