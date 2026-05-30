@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../data/cart.dart';
+import '../services/login_service.dart';
+import 'login_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -11,6 +13,41 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final loginService = LoginService();
+
+  Future<void> finalizarCompra() async {
+    final token = await loginService.obterToken();
+
+    if (!mounted) return;
+
+    if (token == null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Você precisa estar logado para finalizar a compra.'),
+        ),
+      );
+
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Compra finalizada com sucesso!'),
+      ),
+    );
+
+    setState(() {
+      limparCarrinho();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final total = calcularTotal();
@@ -28,9 +65,23 @@ class _CartScreenState extends State<CartScreen> {
       ),
       body: carrinho.isEmpty
           ? const Center(
-              child: Text(
-                'Seu carrinho está vazio.',
-                style: TextStyle(fontSize: 18),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shopping_cart_outlined,
+                    size: 90,
+                    color: Color(0xFF7800F7),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Seu carrinho está vazio',
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ],
               ),
             )
           : Column(
@@ -109,17 +160,7 @@ class _CartScreenState extends State<CartScreen> {
                         width: double.infinity,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Compra finalizada com sucesso!'),
-                              ),
-                            );
-
-                            setState(() {
-                              limparCarrinho();
-                            });
-                          },
+                          onPressed: finalizarCompra,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF7800F7),
                             foregroundColor: Colors.white,

@@ -11,7 +11,7 @@ class LoginService {
   }) async {
     await Future.delayed(const Duration(seconds: 1));
 
-    if (username == 'mor_2314' && password == '83r5^_') {
+    if (username == 'admin' && password == '123456') {
       const token = 'token_fake_checkpoint';
 
       await storage.write(
